@@ -98,6 +98,13 @@ function Init(mode, data) {
       function renderloop() {
         // Render buffer first
         render();
+
+        // fps
+        let result = meter.update();
+        if (result.framerate > 0) {
+          console.log("WebGL Offscreen framerate:" + result.framerate);
+        }
+
         // Wait next begin frame to loop
         gl.commit().then(renderloop);
       }
@@ -223,8 +230,9 @@ function render() {
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     initVertexBuffers(gl, firstDraw);
+    
     gl.drawArrays(gl.POINTS, 0, boids.length);
-
+    
     firstDraw = false;
   }
 }
